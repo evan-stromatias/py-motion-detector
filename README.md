@@ -16,13 +16,13 @@ The users can define callback classes to respond to motion detected events. The 
 Use this software responsibly! Don't be a creep.
 
 # Command Line Interface
-####py_motion_detector
+#### py_motion_detector
 This is the main motion detection app. To see all the available options type:
 `py_motion_detector --help`
 
 Example: `py_motion_detector -p /home/pi/motion_detected_frames/ -r 800 -m 500 -t 4 -l /tmp/log -i INFO`
 
-####py_motion_detector_data_player
+#### py_motion_detector_data_player
 This is a utility command line tool that replays the stored frames and their bounding boxes. 
 
 Usage: `py_motion_detector_data_player --help`
