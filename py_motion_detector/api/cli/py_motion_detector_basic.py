@@ -21,7 +21,7 @@ def parse_args():
     parser.add_argument("-l", "--log-path", type=str, help="Path to store application logs. [default={}]".format(temp_dir), default=temp_dir)
     parser.add_argument("-i", "--log-info", type=str, help="Log level", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], default='info')
     parser.add_argument("-s", "--start_processing_time", type=str, help="Enable motion tracking from a specific time, using the following format: hh:mm:ss [default=None means always on]", default=None)
-    parser.add_argument("-d", "--processing_duration", type=str, help="Duration that the motion detector is going to be active. Format #h/m/s where # is a number and h=hours, m=minutes, s=seconds [default=24h]", default="24h")
+    parser.add_argument("-d", "--processing_duration", type=str, help="Duration that the motion detector is going to be active. Format #h/m/s where # is a number and h=hours, m=minutes, s=seconds [default=24h]", default=None)
     return parser.parse_args()
 
 
@@ -50,4 +50,4 @@ def main():
 
 
 if __name__ == '__main__':
-    pass
+    main()
