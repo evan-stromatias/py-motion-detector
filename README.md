@@ -1,5 +1,5 @@
-#Py-Motion-Detector
-##A Motion detection and logging Python app using a stationary camera
+# Py-Motion-Detector
+## A Motion detection and logging Python app using a stationary camera
 
 A simple Python3.5/OpenCV app for detecting motion and logging the frames in a directory.
 Useful for detecting if your neighbour's pets are using your garden as a public toilet or to give names to the pets you didn't know you had in the house!
@@ -31,8 +31,8 @@ Example: `py_motion_detector_data_player -p /home/pi/motion_detected_frames/ -w 
 
 # Requirements
 * Python3.5+
-* OpenCV3+
-* Numpy
+* OpenCV>=3.4.4.19
+* Numpy>=1.17.0
 
 # Installation
 Type: 
