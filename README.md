@@ -64,4 +64,5 @@ To run all the tests:
 `sudo apt install libqt4-test`
 
 ## To access the camera with OpenCV on a Raspberry pi
+Run the following before running the python script:
 `sudo modprobe bcm2835-v4l2`

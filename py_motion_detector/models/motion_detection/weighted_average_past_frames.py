@@ -12,30 +12,40 @@ logger = logging.getLogger(__name__)
 
 
 class MotionDetectionWeightedAverage(MotionDetectionModelABC):
-    def __init__(self, min_area=5000, delta_threshold=5):
+    """
+    A basic motion detection algorithm using a stationary input source and OpenCV's
+    AccumulatedWeighted which updates a running average.
+
+    https://docs.opencv.org/2.4/modules/imgproc/doc/motion_analysis_and_object_tracking.html#accumulateweighted
+    """
+    def __init__(self, min_area: int = 5000, delta_threshold: int = 5):
         self.min_area = min_area
         self.delta_threshold = delta_threshold
 
         self.weighted_average = None
         self.counter = 0
+
+        self._gkernel = (21, 21)
+        self._weight = 0.5
+        self._dil_iter = 2
         logger.info('Motion detection model has been initialized')
 
     def next_frame(self, frame: np.array) -> List[BoundingBox]:
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        gray = cv2.GaussianBlur(gray, (21, 21), 0)
+        gray = cv2.GaussianBlur(gray, self._gkernel, 0)
 
         if self.weighted_average is None:
             logger.info('Starting background image')
             self.weighted_average = gray.copy().astype("float")
             return []
 
-        cv2.accumulateWeighted(gray, self.weighted_average, 0.5)
+        cv2.accumulateWeighted(gray, self.weighted_average, self._weight)
         frame_delta = cv2.absdiff(gray, cv2.convertScaleAbs(self.weighted_average))
 
         thresh = cv2.threshold(frame_delta, self.delta_threshold, 255,
                                cv2.THRESH_BINARY)[1]
-        thresh = cv2.dilate(thresh, None, iterations=2)
+        thresh = cv2.dilate(thresh, None, iterations=self._dil_iter)
 
         contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = imutils.grab_contours(contours)

@@ -4,9 +4,13 @@ from py_motion_detector.utils.logged_data_player import play_logged_data
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--path-to-logged-data", type=str, help="Path to directory where frames (and bounding boxes) are stored", required=True)
-    parser.add_argument("-w", "--wait-for", type=int, help="How many milliseconds to wait before changing a frame in the player [default=1]", default=1)
-    parser.add_argument("-l", "--loop", action='store_true', help="Loop logged frames forever [default=False]", default=False)
+    parser.add_argument("-p", "--path-to-logged-data", type=str,
+                        help="Path to directory where frames (and bounding boxes) are stored", required=True)
+    parser.add_argument("-w", "--wait-for", type=int,
+                        help="How many milliseconds to wait before changing a frame in the player [default=1]",
+                        default=1)
+    parser.add_argument("-l", "--loop", action='store_true', help="Loop logged frames forever [default=False]",
+                        default=False)
     return parser.parse_args()
 
 

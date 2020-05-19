@@ -21,14 +21,8 @@ class BoundingBox:
         return "{}(top={}, left={}, bottom={}, right={})".format(
             self.__class__.__name__, self.top, self.left, self.bottom, self.right)
 
-    # TODO: use Marsmallow lib for serialization/deserialization
     def to_dict(self):
-        return {
-            "top": self.top,
-            "left": self.left,
-            "bottom": self.bottom,
-            "right": self.right
-        }
+        return self.__dict__
 
     @classmethod
     def from_dict(cls, dict_json):

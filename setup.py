@@ -5,10 +5,10 @@ REQUIREMENTS = [i.strip() for i in open('requirements.txt').readlines()]
 
 setup(
     name='py_motion_detector',
-    version='0.0.1',
+    version='0.0.2',
     description='Python Application for Motion Detection Using a Stationary Camera',
     author='Evangelos Stromatias',
-    author_email='<evangelos.stromatias@gmail.com>',
+    author_email='<evangelos@stromatias.gmailcom>',
     url='https://bitbucket.org/',
     packages=find_packages(exclude='tests'),
     license='MIT',
