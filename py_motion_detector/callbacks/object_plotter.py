@@ -10,6 +10,9 @@ from py_motion_detector.common.plotting import plot_bounding_boxes, plot_timesta
 
 
 class ObjectPlotterCallback(MotionDetectionCallbackABC):
+    """
+
+    """
 
     def __init__(self, wait_key=1):
         self.wait_key = wait_key

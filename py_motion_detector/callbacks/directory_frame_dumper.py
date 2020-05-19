@@ -14,7 +14,10 @@ from py_motion_detector.models.bounding_box import BoundingBox
 logger = logging.getLogger(__name__)
 
 
-class DirectoryFrameDumperCallbackABC(MotionDetectionCallbackABC):
+class DirectoryFrameDumperCallback(MotionDetectionCallbackABC):
+    """
+
+    """
     def __init__(self, directory_to_store, store_bounding_boxes=True, draw_bounding_boxes=False):
         self.directory_to_store = directory_to_store
         self.draw_bounding_boxes = draw_bounding_boxes

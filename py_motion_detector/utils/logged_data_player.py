@@ -18,7 +18,7 @@ def logged_data_gen(directory: str, img_ending="*.jpg", loop_forever: bool = Fal
     for img_p in images:
         img = cv2.imread(img_p)
         json_data = []
-        json_p = os.path.join(directory, os.path.basename(img_p).split(".")[0]+".json")
+        json_p = os.path.join(directory, os.path.basename(img_p).split(".")[0]) + ".json"
         try:
             with open(json_p) as f:
                 json_data = json.load(f)
@@ -37,7 +37,3 @@ def play_logged_data(directory: str, wait_key=0, loop_forever=False):
         except KeyboardInterrupt:
             cv2.destroyAllWindows()
             sys.exit(0)
-
-
-if __name__ == '__main__':
-    play_logged_data("/tmp/bgf/")

@@ -3,6 +3,11 @@ from typing import Optional
 
 
 def str2time_duration(duration: Optional[str]) -> Optional[datetime.datetime.time]:
+    """
+
+    :param duration:
+    :return:
+    """
     if duration is None:
         return None
 
@@ -15,12 +20,18 @@ def str2time_duration(duration: Optional[str]) -> Optional[datetime.datetime.tim
     elif duration_units.lower() == 's':
         strp = "%S"
     else:
-        raise ValueError("Please use one of the following time units: h for hours, m for minutes or s for seconds instead of {}".format(duration_units))
+        raise ValueError("Please use one of the following time units: h for hours, m for minutes or s for seconds "
+                         "instead of {}".format(duration_units))
     duration = datetime.datetime.strptime(duration_num, strp).time()
     return duration
 
 
 def str2time_start_processing_time(from_time: Optional[str]) -> datetime.datetime.time:
+    """
+
+    :param from_time:
+    :return:
+    """
     if from_time is None:
         return None
     from_time = datetime.datetime.strptime(from_time, '%H:%M:%S').time()

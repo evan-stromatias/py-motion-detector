@@ -1,16 +1,17 @@
 import unittest
 import datetime
+import numpy as np
 
 from py_motion_detector.motion_detection_app import MotionDetectionApplication
 from py_motion_detector.common.parsers import str2time_duration
+from py_motion_detector.input_sources.dummy import DummyFrameProvider
 
 
 class TestMotionDetectionApplication(unittest.TestCase):
     def setUp(self):
-        self.motion_detection_app = MotionDetectionApplication()
-
-    def tearDown(self):
-        self.motion_detection_app = MotionDetectionApplication()
+        self.frame = np.random.randint(0, 255, (200, 200), dtype=np.uint8)
+        self.dummy_frame_provider = DummyFrameProvider(self.frame, 10)
+        self.motion_detection_app = MotionDetectionApplication(frame_provider=self.dummy_frame_provider)
 
     def test_should_process_based_on_time_5s(self):
         from_time = datetime.datetime.now().time()
@@ -28,6 +29,7 @@ class TestMotionDetectionApplication(unittest.TestCase):
 
     def test_should_process_based_on_time_always_process(self):
         self.assertTrue(self.motion_detection_app.should_process_based_on_time())
+
 
 if __name__ == '__main__':
     unittest.main()
