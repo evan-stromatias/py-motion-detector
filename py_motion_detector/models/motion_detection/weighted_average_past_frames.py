@@ -2,7 +2,6 @@ from typing import List
 import logging
 
 import cv2
-import imutils
 import numpy as np
 
 from py_motion_detector.models.bounding_box import BoundingBox
@@ -48,7 +47,7 @@ class MotionDetectionWeightedAverage(MotionDetectionModelABC):
         thresh = cv2.dilate(thresh, None, iterations=self._dil_iter)
 
         contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours = imutils.grab_contours(contours)
+        contours = contours[1] # for opencv v3
         return self.bounding_boxes_from_contours(contours)
 
     def bounding_boxes_from_contours(self, cv2_contours) -> List[BoundingBox]:

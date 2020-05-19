@@ -1,3 +1,2 @@
 opencv-python==3.4.9.33
 numpy>=1.17.0
-imutils==0.5.2
