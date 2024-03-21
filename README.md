@@ -3,7 +3,10 @@
 ## Introduction
 A motion detection and logging application in Python using a stationary camera.
 
-![Alt Text](docs/figures/rasbnightvision.jpg)
+RPi Camera            |  Sample output
+:-------------------------:|:-------------------------:
+![](docs/figures/rasbnightvision.jpg)  |  ![](docs/figures/squirrel.gif)
+
 
 `py-motion-detection` is a Python/OpenCV app that can be used for detecting motion and logging the frames in a directory.
 

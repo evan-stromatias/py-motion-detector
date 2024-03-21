@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Iterator, Optional
 
 import numpy as np
 
@@ -21,7 +21,7 @@ class DummyFrameProvider(FrameProviderABC):
     def resize_to(self) -> int:
         return self._resize_frame
 
-    def frames(self) -> np.array:
+    def frames(self) -> Iterator[np.array]:
         for img in self.dummy_frames:
             yield self.resize_frame(img)
 

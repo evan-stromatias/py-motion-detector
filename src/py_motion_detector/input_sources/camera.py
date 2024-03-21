@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Iterator, Optional
 
 import cv2
 import numpy as np
@@ -30,7 +30,7 @@ class CameraFrameProvider(FrameProviderABC):
         self.video_capture.release()
         cv2.destroyAllWindows()
 
-    def frames(self) -> np.array:
+    def frames(self) -> Iterator[np.array]:
         while self.video_capture.isOpened():
             frame = self.video_capture.read()
             yield self.resize_frame(frame[1])

@@ -1,5 +1,5 @@
 import abc
-from typing import Generator
+from typing import Iterator
 
 import cv2
 import numpy as np
@@ -16,7 +16,7 @@ class FrameProviderABC(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def frames(self) -> Generator[np.array, None, None]:
+    def frames(self) -> Iterator[np.array]:
         """Generator that yields the next frame as numpy array."""
 
     @property

@@ -43,7 +43,7 @@ class DirectoryFrameDumperCallback(MotionDetectionCallbackABC):
                 f"Directory '{self.directory_to_store}' does not exist, attempting to create it...",
                 callback=self.name(),
             )
-            os.mkdir(self.directory_to_store)
+            self.directory_to_store.mkdir(parents=True, exist_ok=True)
             logger.info(f"Directory '{self.directory_to_store}' created.", callback=self.name())
         logger.info(f"Storing frames at '{self.directory_to_store}'.", callback=self.name())
         logger.info(f"Callback class '{self.name()}' has been initialized.", callback=self.name())
