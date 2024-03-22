@@ -6,7 +6,9 @@ from pathlib import Path
 from py_motion_detector.utils.logged_data_player import play_logged_data
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
+    """Parsing the command line arguments"""
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-p",

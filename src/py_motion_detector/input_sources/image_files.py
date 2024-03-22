@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Iterator, Optional
 
 import cv2
 import numpy as np
@@ -23,7 +23,7 @@ class ImageFilesFrameProvider(FrameProviderABC):
     def __init__(
         self,
         path_to_dir: Path,
-        files_ending_with: str = ".jpg",
+        files_ending_with: str = "jpg",
         resize_frame: Optional[int] = None,
         sorting_function: Callable = None,
     ):
@@ -38,17 +38,16 @@ class ImageFilesFrameProvider(FrameProviderABC):
         pass
 
     def _load_files(self):
-        path = self.path_to_dir.glob(self.files_ending_with)
-        files = [str(x) for x in path if x.is_file()]
-        return sorted(files) if self.sorting_function is None else files
+        image_paths = list(self.path_to_dir.glob(f"*.{self.files_ending_with}"))
+        return sorted(image_paths) if self.sorting_function is None else image_paths
 
     @property
     def resize_to(self) -> int:
         return self._resize_frame
 
-    def frames(self) -> np.array:
+    def frames(self) -> Iterator[np.array]:
         for img_p in self.image_files:
-            img = cv2.imread(img_p)
+            img = cv2.imread(str(img_p))
             yield self.resize_frame(img)
 
     def __exit__(self, exc_type, exc_val, exc_tb):

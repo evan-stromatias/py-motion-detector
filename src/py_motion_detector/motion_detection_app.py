@@ -61,17 +61,41 @@ class MotionDetectionApplication:
         self.callbacks = callbacks if callbacks is not None else []
         self.sleep_sec = sleep_sec
 
+    def run(self):
+        """The main entry point of the app."""
+        self._setup_callbacks()
+        try:
+            self._run()
+        except KeyboardInterrupt:
+            logger.info("Exiting Motion Detection App")
+            sys.exit(0)
+        except Exception as e:
+            logger.exception(f"Uncaught exception: {e}")
+            logger.exception("Exiting with error code 1")
+            sys.exit(1)
+        finally:
+            self._shutdown_callbacks()
+
+    def _setup_callbacks(self):
+        """This method is called before the main application runs to set up all callback classes"""
+        logger.info("Setting up the Callback Classes.")
+        _ = [callback.on_start() for callback in self.callbacks]
+
+    def _shutdown_callbacks(self):
+        """This method is called when the main application closes to shut down all callback classes"""
+        logger.info("Shutting down the Callback Classes.")
+        _ = [callback.on_exit() for callback in self.callbacks]
+
     def _run(self):
         logger.info("Starting Motion Detection App")
-        _ = [callback.on_start() for callback in self.callbacks]
 
         with self.frame_provider as frame_prv:
             for frame in frame_prv.frames():
 
-                if self.should_process_based_on_time() is not True:
+                if self._should_process_based_on_time() is not True:
                     logger.info(
-                        "Skipping processing frames because current time not between {} and duration {}. Sleeping for "
-                        "{} seconds".format(self.from_time, self.duration, self.sleep_sec)
+                        f"Skipping processing frames because current time not between {self.from_time} "
+                        f"and duration {self.duration}. Sleeping for {self.sleep_sec} seconds"
                     )
                     time.sleep(self.sleep_sec)
                     continue
@@ -82,20 +106,7 @@ class MotionDetectionApplication:
                 for callback in self.callbacks:
                     callback.execute(frame=frame, timestamp=timestamp, bounding_boxes=motion_detected_bounding_boxes)
 
-    def run(self):
-        try:
-            self._run()
-        except KeyboardInterrupt:
-            logger.info("Exiting Motion Detection App")
-        except Exception as e:
-            logger.exception(f"Uncaught exception: {e}")
-            logger.exception("Exiting with error code 1")
-            sys.exit(1)
-        finally:
-            logger.info("Executing the on_exit method of the callback classes")
-            _ = [callback.on_exit() for callback in self.callbacks]
-
-    def should_process_based_on_time(self) -> bool:
+    def _should_process_based_on_time(self) -> bool:
         if self.from_time is None or self.duration is None:
             return True
 

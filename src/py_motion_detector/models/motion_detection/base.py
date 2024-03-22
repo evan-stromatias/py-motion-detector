@@ -12,8 +12,14 @@ class MotionDetectionModelABC(abc.ABC):
     @abc.abstractmethod
     def next_frame(self, frame: np.asarray) -> List[BoundingBox]:
         """
-        Returns a list of bounding boxes if a motion has been detected. If no motion detected then it returns an empty
-        list.
+        Used to detect motion.
+
+        Args:
+            frame: Current input image as a numpy array.
+
+        Returns:
+            A list of bounding box objects if a motion has been detected.
+                If no motion detected then it returns an empty list.
         """
 
     @classmethod

@@ -1,4 +1,5 @@
-from typing import Generator, Optional
+from pathlib import Path
+from typing import Iterator
 
 import cv2
 import numpy as np
@@ -18,22 +19,28 @@ class VideoFileFrameProvider(FrameProviderABC):
         cv2.destroyAllWindows()
     """
 
-    def __init__(self, path_to_video_file: str, resize_frame: Optional[int] = None):
+    def __init__(self, path_to_video_file: Path, resize_frame: int | None = None):
         self.path_to_video_file = path_to_video_file
-        self._resize_frame = resize_frame
+        self._resize_frame = resize_frame  # TODO fix
 
     @property
-    def resize_to(self) -> int:
+    def resize_to(self) -> int | None:
         return self._resize_frame
 
-    def frames(self) -> Generator[np.array, None, None]:
+    def frames(self) -> Iterator[np.array]:
         while self.video_capture.isOpened():
             ret, frame = self.video_capture.read()
+
+            if not ret:
+                return
+
             frame = frame if self._resize_frame is None else self.resize_frame(frame)
             yield frame
 
     def __enter__(self):
-        self.video_capture = cv2.VideoCapture(self.path_to_video_file)
+        if not self.path_to_video_file.is_file():
+            raise FileNotFoundError(f"The video file '{self.path_to_video_file}' does not exist!")
+        self.video_capture = cv2.VideoCapture(str(self.path_to_video_file))
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
