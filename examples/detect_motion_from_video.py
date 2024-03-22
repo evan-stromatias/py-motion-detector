@@ -18,7 +18,7 @@ def main():
 
     motion_app = MotionDetectionApplication(
         frame_provider=input_source,
-        motion_detection_model=MotionDetectionWeightedAverage(min_area=500, delta_threshold=10),
+        motion_detection_model=MotionDetectionWeightedAverage(),
         callbacks=callbacks,
     )
 

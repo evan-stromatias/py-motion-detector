@@ -24,8 +24,6 @@ class FrameRendererCallback(MotionDetectionCallbackABC):
 
     def execute(self, frame: np.array, timestamp: datetime.datetime, bounding_boxes: List[BoundingBox]):
         """
-        Executed when a motion has been detected and stores the frames and bounded boxes to disk.
-
         Args:
             frame: The image for which motion was detected.
             timestamp: The timestamp when a motion was detected.
@@ -35,7 +33,11 @@ class FrameRendererCallback(MotionDetectionCallbackABC):
         frame = plot_bounding_boxes(frame, bounding_boxes)
 
         cv2.imshow(f"{self.name()}", frame)
-        cv2.waitKey(1)
+        key = cv2.waitKey(1)
+        if key == 27:
+            msg = f"{self.name()}: Escape key was pressed. Raising a KeyboardInterrupt exception to exit the app."
+            logger.info(msg)
+            raise KeyboardInterrupt(msg)
 
     def on_exit(self):
         logger.info(f"Shutting down callback class '{self.name()}'.", callback=self.name())

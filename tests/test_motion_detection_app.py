@@ -18,17 +18,17 @@ class TestMotionDetectionApplication(unittest.TestCase):
         duration = str2time_duration("5s")
         self.motion_detection_app.from_time = from_time
         self.motion_detection_app.duration = duration
-        self.assertTrue(self.motion_detection_app.should_process_based_on_time())
+        self.assertTrue(self.motion_detection_app._should_process_based_on_time())
 
     def test_should_process_based_on_time_0s(self):
         from_time = datetime.datetime.now().time()
         duration = str2time_duration("0s")
         self.motion_detection_app.from_time = from_time
         self.motion_detection_app.duration = duration
-        self.assertFalse(self.motion_detection_app.should_process_based_on_time())
+        self.assertFalse(self.motion_detection_app._should_process_based_on_time())
 
     def test_should_process_based_on_time_always_process(self):
-        self.assertTrue(self.motion_detection_app.should_process_based_on_time())
+        self.assertTrue(self.motion_detection_app._should_process_based_on_time())
 
 
 if __name__ == '__main__':

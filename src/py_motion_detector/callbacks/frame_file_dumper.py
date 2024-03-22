@@ -15,7 +15,7 @@ from py_motion_detector.models.bounding_box import BoundingBox
 logger = structlog.get_logger()
 
 
-class DirectoryFrameDumperCallback(MotionDetectionCallbackABC):
+class FrameFileDumperCallback(MotionDetectionCallbackABC):
     def __init__(self, directory_to_store: Path, store_bounding_boxes: bool = True, draw_bounding_boxes: bool = False):
         """
         The default callback used by the command line tool.
@@ -50,8 +50,6 @@ class DirectoryFrameDumperCallback(MotionDetectionCallbackABC):
 
     def execute(self, frame: np.array, timestamp: datetime.datetime, bounding_boxes: List[BoundingBox]):
         """
-        Executed when a motion has been detected and stores the frames and bounded boxes to disk.
-
         Args:
             frame: The image for which motion was detected.
             timestamp: The timestamp when a motion was detected.
@@ -61,7 +59,7 @@ class DirectoryFrameDumperCallback(MotionDetectionCallbackABC):
         if self.draw_bounding_boxes:
             frame = plot_bounding_boxes(frame, bounding_boxes)
 
-        if len(bounding_boxes):
+        if bounding_boxes:
             object_over_frame_area = [m.area / frame.size for m in bounding_boxes]
             logger.info(
                 f"Number of detected objects = {len(bounding_boxes)}. Object area / frame "

@@ -7,19 +7,15 @@ from pathlib import Path
 
 import structlog
 
-from py_motion_detector.callbacks.directory_frame_dumper import DirectoryFrameDumperCallback
+from py_motion_detector.callbacks.frame_file_dumper import FrameFileDumperCallback
 from py_motion_detector.common.parsers import str2time_duration, str2time_start_processing_time
 from py_motion_detector.input_sources.camera import CameraFrameProvider
 from py_motion_detector.models.motion_detection.weighted_average_past_frames import MotionDetectionWeightedAverage
 from py_motion_detector.motion_detection_app import MotionDetectionApplication
 
-_logging_levels = {
-    "DEBUG": logging.DEBUG,
-    "INFO": logging.INFO,
-}
-
 
 def parse_args() -> argparse.Namespace:
+    """Parsing the command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-p",
@@ -80,12 +76,13 @@ def main() -> None:
     p_id = str(uuid.uuid4())
     args = parse_args()
 
+    args.path_to_dir.mkdir(parents=True, exist_ok=True)
     structlog.configure(
         wrapper_class=structlog.make_filtering_bound_logger(logging.getLevelName(args.log_info)),
         logger_factory=structlog.WriteLoggerFactory(file=(args.path_to_dir / p_id).with_suffix(".log").open("wt")),
     )
 
-    callbacks = [DirectoryFrameDumperCallback(args.path_to_dir / p_id)]
+    callbacks = [FrameFileDumperCallback(args.path_to_dir / p_id)]
 
     input_source = CameraFrameProvider(
         resize_frame=args.resize_camera_frames, video_capture_index=args.opencv_video_capture_index

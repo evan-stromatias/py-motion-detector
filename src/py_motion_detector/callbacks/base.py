@@ -17,12 +17,13 @@ class MotionDetectionCallbackABC(abc.ABC):
     @abc.abstractmethod
     def execute(self, frame: np.array, timestamp: datetime.datetime, bounding_boxes: List[BoundingBox]) -> None:
         """
-        Executed when a motion has been detected.
+        This method is called by the `MotionDetectionApplication` for every input frame.
 
         Args:
-            frame: The image for which motion was detected.
-            timestamp: The timestamp when a motion was detected.
-            bounding_boxes: A list of bounding boxes indicating the regions where motion was detected.
+            frame: The current input image.
+            timestamp: The current timestamp.
+            bounding_boxes: A list of bounding boxes indicating the regions where motion was detected. If no motion was
+                detected then this will be an empty list.
         """
 
     @abc.abstractmethod
